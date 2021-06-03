@@ -97,7 +97,7 @@ function register() {
 
       <main className="flex justify-center items-center min-h-screen bg-gradient-to-b from-background_mood-dark to-transparent">
         <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-          <motion.img variants={starsVariants} initial='hidden' animate={ctaClicked ? 'visible' : ''} className="background-image h-full object-cover" src="./stars.png" alt="Stars on Background" />
+          {/* <motion.img variants={starsVariants} initial='hidden' animate={ctaClicked ? 'visible' : ''} className="background-image h-full object-cover" src="./stars.png" alt="Stars on Background" />
 
           <motion.img variants={moonVariants} initial='hidden' animate={ctaClicked ? 'visible' : ''} className="background-image mix-blend-screen david" src="./moon2.png" alt="Moon on Background" />
           <motion.img variants={backMtVariants} initial='hidden' animate={ctaClicked ? 'visible' : ''} className="background-image bottom-0 clip-background" src="./mountains_behind.png" alt="Mountains on Background" />
@@ -135,7 +135,7 @@ function register() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </section>
       </main>
     </div >

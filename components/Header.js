@@ -2,6 +2,9 @@ import { signIn, signOut, useSession } from "next-auth/client";
 
 
 function Header() {
+
+    const [session] = useSession();
+
     return (
         <header className="absolute z-50 w-full px-16 py-16">
             <div className='flex items-center justify-between'>
@@ -11,19 +14,25 @@ function Header() {
                         <li className="list-none mx-16">
                             <a href='/' className="text-white no-underline uppercase">discover</a>
                         </li>
-                        {/* <li className="list-none mx-16">
+                        {session && <li className="list-none mx-16">
                             <a href='/' className="text-white no-underline uppercase">favorites</a>
-                        </li> */}
+                        </li>}
                         <li className="list-none mx-16">
                             <a href='/' className="text-white no-underline uppercase">streaming</a>
                         </li>
-                        <li className="list-none mx-16" onClick={signIn}>
-                            <a href='/' className="text-white no-underline uppercase">signin</a>
-                        </li>
+                        {!session && <li className="list-none mx-16">
+                            <button onClick={signIn} className="focus:outline-none text-white no-underline uppercase">signin</button>
+                        </li>}
+                        {session && <li className="list-none mx-16">
+                            <a href='/' className="text-white no-underline uppercase">profile</a>
+                        </li>}
+                        {session && <li className="list-none mx-16">
+                            <button href='/' onClick={() => signOut()} className="focus:outline-none text-white no-underline uppercase">sign out</button>
+                        </li>}
                     </ul>
                 </nav>
             </div>
-        </header>
+        </header >
     );
 }
 
