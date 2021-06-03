@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "animejs": "^3.2.1",
+    "firebase": "^8.6.3",
     "framer-motion": "^4.1.17",
     "next": "10.2.3",
+    "next-auth": "^3.25.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
