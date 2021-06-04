@@ -2,12 +2,9 @@ import { motion } from 'framer-motion';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
+import AudioPlayer from '../components/AudioPlayer';
 import Header from '../components/Header'
 import { db, storage } from '../firebase';
-import dynamic from 'next/dynamic'
-const AudioPlayer = dynamic(import('../components/AudioPlayer'), {
-  ssr: false
-})
 
 
 const starsVariants = {
@@ -17,7 +14,7 @@ const starsVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 1
+      duration: .3
     }
   }
 }
@@ -28,8 +25,8 @@ const backMtVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 1.2,
-      delay: .6
+      duration: .6,
+      delay: .3
     }
   }
 }
@@ -41,8 +38,8 @@ const moonVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 1.2,
-      delay: 1.2
+      duration: .3,
+      delay: .9
     }
   }
 }
@@ -54,8 +51,8 @@ const frontMtVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 1.6,
-      delay: 1.8
+      duration: 1,
+      delay: 1.2
     }
   }
 }
@@ -67,8 +64,8 @@ const textVariants = {
   visible: {
     y: 0,
     transition: {
-      duration: 2,
-      delay: 4
+      duration: 1,
+      delay: 2
     }
   }
 }
@@ -130,6 +127,12 @@ function Home() {
               title={audioTitle}
               artwork={audioArtwork}
               artist={audioArtist}
+              src={audioUrl}
+            />
+            <AudioPlayer className=""
+              title={'Bla bla'}
+              artwork={audioArtwork}
+              artist={'bla'}
               src={audioUrl}
             />
           </motion.div>

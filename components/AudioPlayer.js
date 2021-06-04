@@ -1,34 +1,36 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import AudioControls from './AudioControls';
-
 function AudioPlayer({ artist, artwork, title, src }) {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio, setAudio] = useState(null)
 
-    const audioRef = useRef(new Audio(src));
     const intervalRef = useRef();
     const isReady = useRef(false);
 
-    const { duration } = audioRef.current;
+    const audioRef = useRef(
+        typeof Audio !== "undefined" ?
+            audio : undefined
+    )
 
     useEffect(() => {
-        console.log(audioRef)
         if (isPlaying) {
-            audioRef.current.play();
+            audioRef.current?.play();
         } else {
-            audioRef.current.pause();
+            audioRef.current?.pause();
         }
     }, [isPlaying]);
 
     useEffect(() => {
         // Pause and clean up on unmount
+        setAudio(new Audio(src))
         return () => {
-            audioRef.current.pause();
+            audioRef.current?.pause();
             clearInterval(intervalRef.current);
         }
     }, []);
 
+    // const { duration } = audioRef.current;
     return (
         <div className="max-w-xs rounded-2xl p-6 shadow-xl m-auto text-white">
             <div className="text-center relative">
