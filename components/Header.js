@@ -6,11 +6,11 @@ function Header() {
     const [session] = useSession();
 
     return (
-        <header className="absolute z-50 w-full px-16 py-16">
+        <header className="absolute w-full px-16">
             <div className='flex items-center justify-between'>
                 <div className='font-extrabold tracking-wider text-white'>HOWL</div>
                 <nav>
-                    <ul className="flex">
+                    <ul className="">
                         <li className="list-none mx-16">
                             <a href='/' className="text-white no-underline uppercase">discover</a>
                         </li>

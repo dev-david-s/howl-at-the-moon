@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.1",
     "animejs": "^3.2.1",
     "firebase": "^8.6.3",
     "framer-motion": "^4.1.17",

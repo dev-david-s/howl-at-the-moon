@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         background_mood: {
           dark: "#2b1055",
+          medium: '#4b2c7b',
           light: "#7597de"
         }
       }
