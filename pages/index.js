@@ -77,10 +77,8 @@ const textVariants = {
 
 function Home() {
 
-  const [audioUrl, setAudioUrl] = useState();
-  const [audioTitle, setAudioTitle] = useState();
-  const [audioArtist, setAudioArtist] = useState();
-  const [audioArtwork, setAudioArtwork] = useState();
+  const [songs, setSongs] = useState([]);
+  const [payed, setPayed] = useState();
 
   useEffect(() => {
 
@@ -88,28 +86,20 @@ function Home() {
   }, []);
 
   const getAudios = async () => {
-    const audioQuery = db.collectionGroup('audios').where('isHot', '==', false);
+    const audioQuery = db.collectionGroup('audios')
     const newAudios = (await audioQuery.get()).docs.map(doc => doc.data())
     newAudios.forEach(function (track) {
-      setAudioTitle(track.title)
-      setAudioArtist(track.artist)
-      displayAudio(track.url, track.artwork);
+      if (track.isHot) {
+        console.log(track)
+        setPayed(track);
+      }
+
+      setSongs(oldSong => [...oldSong, track]);
+
     })
 
   }
-  function displayAudio(url, artwork) {
-    storage.refFromURL(url).getDownloadURL().then(function (url) {
-      setAudioUrl(url)
-    }).catch(function (error) {
-      console.error(error);
-    })
-    console.log(artwork)
-    storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
-      setAudioArtwork(artwork)
-    }).catch(function (error) {
-      console.error(error);
-    })
-  }
+
 
   return (
     <div>
@@ -129,24 +119,27 @@ function Home() {
           <motion.img variants={frontMtVariants} initial='hidden' animate='visible' className="background-image max-h-screen bottom-0 z-50 clip-background text-background_mood-dark" src="./mountains_front.png" alt="Mountains on Background" />
           <motion.div style={{ position: 'absolute', top: '25%' }} variants={textVariants} initial='hidden' animate='visible'><h2 className="text-white text-4xl md:text-uni font-bold">Today's Pick</h2></motion.div>
           <motion.div variants={textVariants} initial='hidden' animate='visible' style={{ top: '33%' }}>
-            <AudioPlayer className=""
-              title={audioTitle}
-              artwork={audioArtwork}
-              artist={audioArtist}
-              src={audioUrl}
-            />
-            {/* <AudioPlayer className=""
-              title={'Bla bla'}
-              artwork={audioArtwork}
-              artist={'bla'}
-              src={audioUrl}
-            /> */}
+            {payed && <AudioPlayer className=""
+              title={payed.title}
+              artwork={payed.artwork}
+              artist={payed.artist}
+              src={payed.url}
+            />}
           </motion.div>
 
         </section>
       </main>
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-background_mood-dark to-background_mood-medium">
-
+        {songs.map((song) => (
+          <AudioPlayer className=""
+            key={song.id}
+            title={song.title}
+            artwork={song.artwork}
+            artist={song.artist}
+            trackNum={song.id}
+            src={song.url}
+          />
+        ))}
       </div>
     </div >
   )
