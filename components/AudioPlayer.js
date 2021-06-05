@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import ReactAudioPlayer from 'react-audio-player';
 import { storage } from '../firebase';
 import AudioControls from './AudioControls';
 function AudioPlayer({ artist, artwork, title, src, trackNum }) {
@@ -122,6 +123,7 @@ function AudioPlayer({ artist, artwork, title, src, trackNum }) {
                     onMouseUp={onScrubEnd}
                     onKeyUp={onScrubEnd}
                 />
+                <ReactAudioPlayer src={source} controls />
             </div>
         </div>
     )

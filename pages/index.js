@@ -129,17 +129,22 @@ function Home() {
 
         </section>
       </main>
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-background_mood-dark to-background_mood-medium">
-        {songs.map((song) => (
-          <AudioPlayer className=""
-            key={song.id}
-            title={song.title}
-            artwork={song.artwork}
-            artist={song.artist}
-            trackNum={song.id}
-            src={song.url}
-          />
-        ))}
+      <div className="min-h-screen bg-gradient-to-b from-background_mood-dark to-background_mood-medium">
+        <div>
+          <h1 className="">Horror stories</h1>
+          <div className="flex flex-col sm:flex-row justify-center items-center">
+            {songs.map((song) => (
+              <AudioPlayer className=""
+                key={song.id}
+                title={song.title}
+                artwork={song.artwork}
+                artist={song.artist}
+                trackNum={song.id}
+                src={song.url}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div >
   )
