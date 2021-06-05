@@ -9,6 +9,7 @@ function AudioControls({
             {isPlaying ? (
                 <button
                     type="button"
+                    className="focus:outline-none"
                     onClick={() => onPlayPauseClick(false)}
                     aria-label="Pause"
                 >
@@ -17,6 +18,7 @@ function AudioControls({
             ) : (
                 <button
                     type="button"
+                    className="focus:outline-none"
                     onClick={() => onPlayPauseClick(true)}
                     aria-label="Play"
                 >

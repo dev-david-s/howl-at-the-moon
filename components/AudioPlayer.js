@@ -8,34 +8,40 @@ function AudioPlayer({ artist, artwork, title, src }) {
     const intervalRef = useRef();
     const isReady = useRef(false);
 
-    const audioRef = useRef(
-        typeof Audio !== "undefined" ?
-            audio : undefined
-    )
+    const audioRef = useRef(audio)
 
     useEffect(() => {
-        if (isPlaying) {
-            audioRef.current?.play();
-        } else {
-            audioRef.current?.pause();
-        }
-    }, [isPlaying]);
-
-    useEffect(() => {
+        setAudio(new Audio(src));
         // Pause and clean up on unmount
-        setAudio(new Audio(src))
         return () => {
             audioRef.current?.pause();
             clearInterval(intervalRef.current);
+            console.log(audio)
         }
-    }, []);
+    }, [, src]);
+
+    useEffect(() => {
+        audioRef.current = audio;
+    }, [audio])
+
+    useEffect(() => {
+        console.log(audioRef)
+        if (isPlaying) {
+            audioRef.current?.play();
+            // audio.play()
+        } else {
+            audioRef.current?.pause();
+            //            audio.pause()
+        }
+    }, [isPlaying]);
+
 
     // const { duration } = audioRef.current;
     return (
         <div className="max-w-xs rounded-2xl p-6 shadow-xl m-auto text-white">
             <div className="text-center relative">
                 <img
-                    className="rounded-3xl block m-auto h-48 w-48"
+                    className="rounded-full block m-auto h-48 w-48"
                     src={artwork}
                     alt={`track artwork for ${title} by ${artist}`}
                 />

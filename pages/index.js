@@ -6,6 +6,11 @@ import AudioPlayer from '../components/AudioPlayer';
 import Header from '../components/Header'
 import { db, storage } from '../firebase';
 
+import dynamic from 'next/dynamic'
+// const AudioPlayer = dynamic(
+//   () => import('../components/AudioPlayer'),
+//   { ssr: false }
+// )
 
 const starsVariants = {
   hidden: {
@@ -78,6 +83,7 @@ function Home() {
   const [audioArtwork, setAudioArtwork] = useState();
 
   useEffect(() => {
+
     getAudios()
   }, []);
 
@@ -129,12 +135,12 @@ function Home() {
               artist={audioArtist}
               src={audioUrl}
             />
-            <AudioPlayer className=""
+            {/* <AudioPlayer className=""
               title={'Bla bla'}
               artwork={audioArtwork}
               artist={'bla'}
               src={audioUrl}
-            />
+            /> */}
           </motion.div>
 
         </section>
