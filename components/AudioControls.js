@@ -2,9 +2,10 @@ import { PlayIcon, PauseIcon } from '@heroicons/react/solid'
 
 function AudioControls({
     isPlaying,
-    onPlayPauseClick,
+    onPlayPauseClick
 }) {
     return (
+
         <div>
             {isPlaying ? (
                 <button

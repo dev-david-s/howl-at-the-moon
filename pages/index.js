@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
 import AudioPlayer from '../components/AudioPlayer';
 import Header from '../components/Header'
 import { db, storage } from '../firebase';
@@ -81,16 +80,15 @@ function Home() {
   const [payed, setPayed] = useState();
 
   useEffect(() => {
-
     getAudios()
   }, []);
+
 
   const getAudios = async () => {
     const audioQuery = db.collectionGroup('audios')
     const newAudios = (await audioQuery.get()).docs.map(doc => doc.data())
     newAudios.forEach(function (track) {
       if (track.isHot) {
-        console.log(track)
         setPayed(track);
       }
 
@@ -129,17 +127,44 @@ function Home() {
 
         </section>
       </main>
-      <div className="min-h-screen bg-gradient-to-b from-background_mood-dark to-background_mood-medium">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background_mood-dark to-background_mood-medium">
         <div>
-          <h1 className="">Horror stories</h1>
-          <div className="flex flex-col sm:flex-row justify-center items-center">
-            {songs.map((song) => (
-              <AudioPlayer className=""
-                key={song.id}
+          <h1 className="text-2xl text-white font-bold my-4">LoFi</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-1 m-auto place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-14 border-t-2 border-white p-8">
+            {songs.filter(song => song.type == 'lofi').map(song => (
+              <AudioPlayer className="  "
+                key={song.artwork}
                 title={song.title}
                 artwork={song.artwork}
                 artist={song.artist}
-                trackNum={song.id}
+                src={song.url}
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          <h1 className="text-2xl text-white font-bold my-4">White Noise</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-1 m-auto place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-14 border-t-2 border-white p-8">
+            {songs.filter(song => song.type == 'white-noise').map(song => (
+              <AudioPlayer className="  "
+                key={song.artwork}
+                title={song.title}
+                artwork={song.artwork}
+                artist={song.artist}
+                src={song.url}
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          <h1 className="text-2xl text-white font-bold my-4">Horror Stories</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-1 m-auto place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-14 border-t-2 border-white p-8">
+            {songs.filter(song => song.type == 'horror').map(song => (
+              <AudioPlayer className="  "
+                key={song.artwork}
+                title={song.title}
+                artwork={song.artwork}
+                artist={song.artist}
                 src={song.url}
               />
             ))}
