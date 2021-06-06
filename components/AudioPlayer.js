@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import ReactPlayer from 'react-player';
 import { storage } from '../firebase';
+import Image from 'next/image';
 import AudioControls from './AudioControls';
 function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
 
@@ -50,11 +51,16 @@ function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
     return (
         <div className={`max-w-xs rounded-2xl p-6 shadow-xl text-white ${isPlaying && 'bg-background_mood-medium'}`}>
             <div className="text-center relative">
-                <img
-                    className="rounded-full block m-auto h-48 w-48 object-contain"
-                    src={image}
-                    alt={`track artwork for ${title} by ${artist}`}
-                />
+                {
+                    image && <Image
+                        className="rounded-full block m-auto"
+                        width={192}
+                        height={192}
+                        objectFit="contain"
+                        src={image}
+                        alt={`track artwork for ${title} by ${artist}`}
+                    />
+                }
                 <h2 className="font-bold mb-1">{title}</h2>
                 <h3 className="font-light mt-0">{artist}</h3>
                 <AudioControls
