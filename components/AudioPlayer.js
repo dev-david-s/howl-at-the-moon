@@ -1,9 +1,19 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import ReactPlayer from 'react-player';
-import { storage } from '../firebase';
+import { storage, db } from '../firebase';
 import Image from 'next/image';
 import AudioControls from './AudioControls';
-function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
+import firebase from "firebase"
+
+
+import { useSession } from "next-auth/client";
+
+
+import { StarIcon as StarOutline } from "@heroicons/react/outline"
+import { StarIcon as StarSolid } from "@heroicons/react/solid"
+
+function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
+    const [session] = useSession();
 
     const [source, setSource] = useState()
     const [image, setImage] = useState()
@@ -11,12 +21,20 @@ function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
     const [isPlaying, setIsPlaying] = useState()
     const [trackProgress, setTrackProgress] = useState(0);
 
+    const [isFavorite, setIsFavorite] = useState(false)
+
     useEffect(() => {
         storage.refFromURL(src).getDownloadURL().then(function (url) {
             setSource(url)
         })
         storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
             setImage(artwork)
+        })
+
+        favoriteList?.forEach(function (favorite) {
+            if (favorite.title == title) {
+                setIsFavorite(true)
+            }
         })
     }, []);
 
@@ -36,6 +54,28 @@ function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
         setIsPlaying(shouldPlay)
     }
 
+    const handleAddToFavorites = () => {
+        db.collection('users').doc(session.user.email).collection('favorites').add({
+            favoriteId: trackId,
+            artist: artist,
+            artwork: image,
+            title: title,
+            src: source,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        setIsFavorite(true);
+    }
+
+    const handleRemoveFromFavorites = () => {
+        db.collection('users').doc(session.user.email).collection('favorites').where('favoriteId', '==', trackId).get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    doc.ref.delete();
+                })
+            })
+        setIsFavorite(false);
+    }
+
     // const onScrub = (e) => {do
     //     setTrackProgress(e.target.value);
     //     console.log(trackProgress)
@@ -51,12 +91,27 @@ function AudioPlayer({ artist, artwork, title, src, setCurrentSource }) {
     return (
         <div className={`max-w-xs rounded-2xl p-6 shadow-xl text-white ${isPlaying && 'bg-background_mood-medium'}`}>
             <div className="text-center relative">
+                <div>
+                    {!isFavorite ? (
+                        <button
+                            type="button" onClick={() => handleAddToFavorites()} className="absolute right-0 cursor-pointer z-50"
+                            aria-label="Remove from Favorites">
+                            <StarOutline className="w-6 h-6 " />
+                        </button>) : (
+                        <button
+                            type="button" onClick={() => handleRemoveFromFavorites()} className="absolute right-0 cursor-pointer z-50"
+                            aria-label="Remove from Favorites">
+                            <StarSolid className="w-6 h-6 " />
+                        </button>
+                    )
+                    }
+                </div>
                 {
                     image && <Image
                         className="rounded-full block m-auto"
-                        width={192}
-                        height={192}
-                        objectFit="contain"
+                        width={180}
+                        height={180}
+                        objectFit="cover"
                         src={image}
                         alt={`track artwork for ${title} by ${artist}`}
                     />
