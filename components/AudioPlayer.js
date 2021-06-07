@@ -24,15 +24,16 @@ function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
     const [isFavorite, setIsFavorite] = useState(false)
 
     useEffect(() => {
-        storage.refFromURL(src).getDownloadURL().then(function (url) {
+        console.log(src)
+        src && storage.refFromURL(src).getDownloadURL().then(function (url) {
             setSource(url)
         })
-        storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
+        artwork && storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
             setImage(artwork)
         })
 
         favoriteList?.forEach(function (favorite) {
-            if (favorite.title == title) {
+            if (favorite.src == src) {
                 setIsFavorite(true)
             }
         })
@@ -58,9 +59,9 @@ function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
         db.collection('users').doc(session.user.email).collection('favorites').add({
             favoriteId: trackId,
             artist: artist,
-            artwork: image,
+            artwork: artwork,
             title: title,
-            src: source,
+            src: src,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
         setIsFavorite(true);

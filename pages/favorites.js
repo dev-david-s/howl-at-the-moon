@@ -1,14 +1,21 @@
 import moment from "moment";
 import { getSession } from "next-auth/client";
+import AudioPlayer from "../components/AudioPlayer";
 import { db } from "../firebase";
 
 function favorites({ favorites }) {
     return (
         <div>
             {favorites.map((favorite) => (
-                <div className="grid place-items-center" key={favorite.src}>
-                    <h1 className="text-red-500">{favorite.title}</h1>
-                </div>
+                <AudioPlayer
+                    key={favorite.artwork}
+                    title={favorite.title}
+                    artwork={favorite.artwork}
+                    artist={favorite.artist}
+                    src={favorite.url}
+                    trackId={favorite.id}
+                    favoriteList={favorites}
+                />
             ))}
         </div>
     )
