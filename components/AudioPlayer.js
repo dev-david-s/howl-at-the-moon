@@ -12,7 +12,7 @@ import { useSession } from "next-auth/client";
 import { StarIcon as StarOutline } from "@heroicons/react/outline"
 import { StarIcon as StarSolid } from "@heroicons/react/solid"
 
-function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList, hideFavorites }) {
+function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList, hideFavorites, nowPlaying, setNowPlaying }) {
     const [session] = useSession();
 
     const [source, setSource] = useState()
@@ -50,8 +50,17 @@ function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList, hideF
         setDuration(state)
     }
 
+    useEffect(() => {
+        if (nowPlaying != src) {
+            setIsPlaying(false);
+        } else {
+            setIsPlaying(true);
+        }
+    }, [nowPlaying])
+
     const onPlayPauseClick = (shouldPlay) => {
         setIsPlaying(shouldPlay)
+        setNowPlaying(src)
     }
 
     const handleAddToFavorites = () => {

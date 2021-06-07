@@ -78,9 +78,9 @@ const textVariants = {
 
 function Home({ favorites }) {
 
-  const [session] = useSession();
   const [songs, setSongs] = useState([]);
   const [payed, setPayed] = useState();
+  const [nowPlaying, setNowPlaying] = useState();
 
   useEffect(() => {
     getAudios()
@@ -127,6 +127,8 @@ function Home({ favorites }) {
               src={payed.url}
               trackId={payed.id}
               favoriteList={favorites}
+              nowPlaying={nowPlaying}
+              setNowPlaying={setNowPlaying}
             />}
           </motion.div>
 
@@ -145,6 +147,8 @@ function Home({ favorites }) {
                 src={song.url}
                 trackId={song.id}
                 favoriteList={favorites}
+                nowPlaying={nowPlaying}
+                setNowPlaying={setNowPlaying}
               />
             ))}
           </div>
@@ -161,6 +165,8 @@ function Home({ favorites }) {
                 src={song.url}
                 trackId={song.id}
                 favoriteList={favorites}
+                nowPlaying={nowPlaying}
+                setNowPlaying={setNowPlaying}
               />
             ))}
           </div>
@@ -177,6 +183,8 @@ function Home({ favorites }) {
                 src={song.url}
                 trackId={song.id}
                 favoriteList={favorites}
+                nowPlaying={nowPlaying}
+                setNowPlaying={setNowPlaying}
               />
             ))}
           </div>
