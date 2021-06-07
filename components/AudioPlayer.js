@@ -12,7 +12,7 @@ import { useSession } from "next-auth/client";
 import { StarIcon as StarOutline } from "@heroicons/react/outline"
 import { StarIcon as StarSolid } from "@heroicons/react/solid"
 
-function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
+function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList, hideFavorites }) {
     const [session] = useSession();
 
     const [source, setSource] = useState()
@@ -24,11 +24,10 @@ function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
     const [isFavorite, setIsFavorite] = useState(false)
 
     useEffect(() => {
-        console.log(src)
-        src && storage.refFromURL(src).getDownloadURL().then(function (url) {
+        storage.refFromURL(src).getDownloadURL().then(function (url) {
             setSource(url)
         })
-        artwork && storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
+        storage.refFromURL(artwork).getDownloadURL().then(function (artwork) {
             setImage(artwork)
         })
 
@@ -92,21 +91,21 @@ function AudioPlayer({ artist, artwork, title, src, trackId, favoriteList }) {
     return (
         <div className={`max-w-xs rounded-2xl p-6 shadow-xl text-white ${isPlaying && 'bg-background_mood-medium'}`}>
             <div className="text-center relative">
-                <div>
+                {!hideFavorites && <div>
                     {!isFavorite ? (
                         <button
-                            type="button" onClick={() => handleAddToFavorites()} className="absolute right-0 cursor-pointer z-50"
+                            type="button" onClick={() => handleAddToFavorites()} className="absolute right-0 cursor-pointer z-50 focus:outline-none"
                             aria-label="Remove from Favorites">
                             <StarOutline className="w-6 h-6 " />
                         </button>) : (
                         <button
-                            type="button" onClick={() => handleRemoveFromFavorites()} className="absolute right-0 cursor-pointer z-50"
+                            type="button" onClick={() => handleRemoveFromFavorites()} className="absolute right-0 cursor-pointer z-50 focus:outline-none"
                             aria-label="Remove from Favorites">
                             <StarSolid className="w-6 h-6 " />
                         </button>
                     )
                     }
-                </div>
+                </div>}
                 {
                     image && <Image
                         className="rounded-full block m-auto"
